@@ -1,25 +1,29 @@
-const express = require('express');
-const { graphqlHTTP } = require('express-graphql');
-const schema = require('./schema/schema');
-const mongoose = require('mongoose');
+const express = require("express");
+const { graphqlHTTP } = require("express-graphql");
+const schema = require("./schema/schema");
+const mongoose = require("mongoose");
+const PORT = process.env.PORT || 4000;
+const cors = require("cors");
 
-require('dotenv').config();
+require("dotenv").config();
 
 const app = express();
 
+app.use(cors());
+
 mongoose
-    .connect(
-        `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.hgnyi.mongodb.net/${process.env.MONGO_DATABASE}?retryWrites=true&w=majority`,
-        { useNewUrlParser: true, useUnifiedTopology: true }
-    )
-    .then(() => console.log('Connected to database'));
+  .connect(
+    `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.hgnyi.mongodb.net/${process.env.MONGO_DATABASE}?retryWrites=true&w=majority`,
+    { useNewUrlParser: true, useUnifiedTopology: true }
+  )
+  .then(() => console.log("Connected to database"));
 
 app.use(
-    '/graphql',
-    graphqlHTTP({
-        schema,
-        graphiql: true
-    })
+  "/graphql",
+  graphqlHTTP({
+    schema,
+    graphiql: true,
+  })
 );
 
-app.listen(4000, () => console.log('Listening on port 4000'));
+const server = app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
