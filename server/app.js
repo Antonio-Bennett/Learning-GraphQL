@@ -2,10 +2,10 @@ const express = require("express");
 const { graphqlHTTP } = require("express-graphql");
 const schema = require("./schema/schema");
 const mongoose = require("mongoose");
-const PORT = process.env.PORT || 4000;
 const cors = require("cors");
 
 require("dotenv").config();
+const PORT = process.env.PORT || 4000;
 
 const app = express();
 
@@ -26,4 +26,4 @@ app.use(
   })
 );
 
-const server = app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
